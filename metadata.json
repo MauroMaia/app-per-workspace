@@ -1,0 +1,9 @@
+{
+  "name": "App per Workspaces",
+  "description": "Open apps on new workspaces",
+  "uuid": "app-per-workspace@mauro.maia",
+  "shell-version": [
+    "40.4"
+  ],
+  "version": 1.1
+}
