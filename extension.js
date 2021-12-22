@@ -28,6 +28,7 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Mainloop = imports.mainloop;
 
 const Me = ExtensionUtils.getCurrentExtension();
+const Lib = Me.imports.utils;
 //const extensionName = Me.metadata.name;
 //const extensionUUID = Me.metadata.uuid;
 
@@ -40,7 +41,7 @@ const APP_STATES = [
 
 class Extension {
     constructor() {
-        _log(`initializing`);
+        Lib._log(`initializing`);
 
         let { workspaceManager } = global;
 
@@ -51,7 +52,7 @@ class Extension {
     }
 
     enable() {
-        _log(`enabling`);
+        Lib._log(`enabling`);
 
         this._appStateChangedId = this._appSys.connect('app-state-changed',
             (appSys, app) => {
@@ -65,11 +66,11 @@ class Extension {
                     return;
 
                 if (app.get_id() === this._last_app_id){
-                    _log(`Removing source: ${this.last_timeout}`);
+                    Lib._log(`Removing source: ${this.last_timeout}`);
                     Mainloop.source_remove(this.last_timeout);
                 }
                     
-                _log(`App ${app.get_name()} changed to required state: ${APP_STATES[app.state]}`);
+                Lib._log(`App ${app.get_name()} changed to required state: ${APP_STATES[app.state]}`);
                 
                 this._last_app_id = app.get_id();
                 this.last_timeout = Mainloop.timeout_add(500, () => this._move_app_to_last_windows(app));
@@ -88,7 +89,7 @@ class Extension {
                 this._workspaceManager.get_n_workspaces() - 1
             );
 
-            _log(`Moving app ${app.get_name()} to worksapce ${ws.index()}`);
+            Lib._log(`Moving app ${app.get_name()} to worksapce ${ws.index()}`);
 
             let windows = app.get_windows();
             windows.forEach(w => {
@@ -104,7 +105,7 @@ class Extension {
     }
 
     disable() {
-        _log(`disabling`);
+        Lib._log(`disabling`);
 
         this._appSys.disconnect(this._appStateChangedId);
         this._appStateChangedId = 0;
@@ -115,6 +116,3 @@ function init() {
     return new Extension();
 }
 
-function _log(message) {
-    log(`${Me.metadata.uuid} - ${message}`);
-}
