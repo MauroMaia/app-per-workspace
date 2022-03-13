@@ -4,7 +4,8 @@
   "uuid": "app-per-workspace@mauro.maia",
   "shell-version": [
     "40.4",
-    "41"
+    "41",
+    "42"
   ],
   "version": 1.2
 }
