@@ -38,6 +38,9 @@ const APP_STATES = [
     "2 - RUNNING"
 ];
 
+const IGNORE_THIS_APPS = [
+    "Screenshot"
+];
 
 class Extension {
     constructor() {
@@ -78,6 +81,12 @@ class Extension {
     }
 
     _move_app_to_last_windows(app) {
+
+        if (IGNORE_THIS_APPS.includes(app.get_name(), 0))
+        {
+            return;
+        }
+
         Meta.later_add(Meta.LaterType.BEFORE_REDRAW, () => {
             if (app.state !== Shell.AppState.RUNNING)
                 return;
