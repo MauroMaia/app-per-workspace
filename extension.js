@@ -39,7 +39,8 @@ const APP_STATES = [
 ];
 
 const IGNORE_THIS_APPS = [
-    "Screenshot"
+    "Screenshot",
+    "com-jetbrains-toolbox-entry-ToolboxEntry"
 ];
 
 class Extension {
