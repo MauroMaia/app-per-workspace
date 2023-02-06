@@ -45,7 +45,7 @@ const IGNORE_THIS_APPS = [
 
 class Extension {
     constructor() {
-        Lib._log(`initializing`);
+        Lib._i(`initializing`);
 
         let { workspaceManager } = global;
 
@@ -56,25 +56,22 @@ class Extension {
     }
 
     enable() {
-        Lib._log(`enabling`);
+        Lib._i(`enabling`);
 
         this._appStateChangedId = this._appSys.connect('app-state-changed',
             (appSys, app) => {
 
-                //log(`App state change ${app.get_name()} ${APP_STATES[app.state]}`);
+                //Lib._d(`App state change ${app.get_name()} ${APP_STATES[app.state]}`);
 
-                if (app.state !== Shell.AppState.RUNNING)
-                    return;
-                
-                if (app.is_on_workspace(this._workspaceManager.get_workspace_by_index(this._workspaceManager.get_n_workspaces() - 1))) 
+                if (app.state !== Shell.AppState.STARTING)
                     return;
 
                 if (app.get_id() === this._last_app_id){
-                    Lib._log(`Removing source: ${this.last_timeout}`);
+                    Lib._d(`Removing source: ${this.last_timeout}`);
                     Mainloop.source_remove(this.last_timeout);
                 }
                     
-                Lib._log(`App ${app.get_name()} changed to required state: ${APP_STATES[app.state]}`);
+                Lib._i(`App ${app.get_name()} changed to required state: ${APP_STATES[app.state]}`);
                 
                 this._last_app_id = app.get_id();
                 this.last_timeout = Mainloop.timeout_add(500, () => this._move_app_to_last_windows(app));
@@ -92,6 +89,10 @@ class Extension {
             if (app.state !== Shell.AppState.RUNNING)
                 return;
             
+
+            if (app.is_on_workspace(this._workspaceManager.get_workspace_by_index(this._workspaceManager.get_n_workspaces() - 1))) 
+                return;
+
             this._last_app_id = "";
 
             // TODO - handle drag
@@ -99,7 +100,7 @@ class Extension {
                 this._workspaceManager.get_n_workspaces() - 1
             );
 
-            Lib._log(`Moving app ${app.get_name()} to worksapce ${ws.index()}`);
+            Lib._i(`Moving app ${app.get_name()} to worksapce ${ws.index()}`);
 
             let windows = app.get_windows();
             windows.forEach(w => {
@@ -115,7 +116,7 @@ class Extension {
     }
 
     disable() {
-        Lib._log(`disabling`);
+        Lib._i(`disabling`);
 
         this._appSys.disconnect(this._appStateChangedId);
         this._appStateChangedId = 0;
