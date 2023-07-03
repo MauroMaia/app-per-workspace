@@ -6,7 +6,7 @@ Gnome shell extension to move new app to a empty workspace.
 ## Instalation
 
 1. Clone this repository: `git clone https://github.com/MauroMaia/app-per-workspace.git ~/.local/share/gnome-shell/extensions/app-per-workspace@mauro.maia`
-  1. If you want to rename the folder. Edit the uuid in (./metadata.json)[https://github.com/MauroMaia/app-per-workspace/blob/main/metadata.json] before the next step.
+  1. If you want to rename the folder. Edit the uuid in [metadata.json](https://github.com/MauroMaia/app-per-workspace/blob/main/metadata.json) before the next step.
 3. Restart gnome* : `Alt + f2` then type `r`
 
 \* - This step may crash your gnome. Make sure you test this extension in a virtual enviroment.
